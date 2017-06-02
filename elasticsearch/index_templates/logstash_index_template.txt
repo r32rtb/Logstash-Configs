@@ -13,7 +13,7 @@
           "message_field": {
             "mapping": {
               "fielddata": {
-                "format": "disabled"
+                "format": false
               },
               "index": "analyzed",
               "omit_norms": true,
@@ -27,7 +27,7 @@
           "string_fields": {
             "mapping": {
               "fielddata": {
-                "format": "disabled"
+                "format": false
               },
               "index": "analyzed",
               "omit_norms": true,
