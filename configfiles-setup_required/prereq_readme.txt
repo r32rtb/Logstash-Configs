@@ -7,10 +7,10 @@
 # These have been tested on Logstash 2.4.  Older versions that do not have bin/logstash-plugin and
 # instead use bin/plugin have issues.
 
-sudo /opt/logstash/bin/logstash-plugin install logstash-filter-translate
-sudo /opt/logstash/bin/logstash-plugin install logstash-filter-tld
-sudo /opt/logstash/bin/logstash-plugin install logstash-filter-rest
-sudo /opt/logstash/bin/logstash-plugin install logstash-filter-elasticsearch
+sudo /usr/share/logstash/bin/logstash-plugin install logstash-filter-translate
+sudo /usr/share/logstash/bin/logstash-plugin install logstash-filter-tld
+sudo /usr/share/logstash/bin/logstash-plugin install logstash-filter-rest
+sudo /usr/share/logstash/bin/logstash-plugin install logstash-filter-elasticsearch
 
 # Also follow the readmes for specific things you wish to setup such as frequency_analysis, alexa lookups,
 # message queuing, etc.
