@@ -1,0 +1,10 @@
+path.data: /var/lib/logstash
+path.config: /etc/logstash/conf.d
+config.reload.automatic: true
+path.logs: /var/log/logstash
+queue.max_bytes: 1gb
+pipeline.workers: 1
+queue.type: persisted
+path.queue: /nsm/logstash/queue
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.url: http://elasticsearch:9200
