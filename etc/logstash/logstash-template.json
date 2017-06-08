@@ -1,9 +1,9 @@
 {
   "template" : "logstash-*",
-  "version" : 50001,
+  "version" : 50002,
   "settings" : {
-    "number_of_replicas": 0,
-    "number_of_shards": 1,
+    "number_of_replicas": 1,
+    "number_of_shards": 5,
     "index.refresh_interval" : "5s"
   },
   "mappings" : {
@@ -31,10 +31,12 @@
         }
       } ],
       "properties" : {
-        "@timestamp": { "type": "date", "include_in_all": false },
-        "@version": { "type": "keyword", "include_in_all": false },
-	"destination_ip" : { "type": "ip" },
-	"source_ip" : { "type": "ip" },
+        "@timestamp": { "type": "date", "copy_to": false },
+        "@version": { "type": "keyword", "copy_to": false },
+        "destination_ip" : { "type": "ip" },
+        "source_ip" : { "type": "ip" },
+        "answers" : { "type": "text",
+                      "fielddata": "true"},
         "geoip"  : {
           "dynamic": true,
           "properties" : {
