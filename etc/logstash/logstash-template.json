@@ -1,42 +1,106 @@
 {
-  "template" : "logstash-*",
-  "version" : 50002,
-  "settings" : {
-    "number_of_replicas": 1,
-    "number_of_shards": 5,
-    "index.refresh_interval" : "5s"
+  "order": 0,
+  "template": "logstash-*",
+  "settings": {
+    "index": {
+      "number_of_shards": 5,
+      "refresh_interval": "5s",
+        "mapping": {
+          "ignore_malformed": "true"
+        }
+    }
   },
-  "mappings" : {
-    "_default_" : {
-      "_all" : {"enabled" : true, "norms" : false},
-      "dynamic_templates" : [ {
-        "message_field" : {
-          "path_match" : "message",
-          "match_mapping_type" : "string",
-          "mapping" : {
-            "type" : "text",
-            "norms" : false
+  "mappings": {
+    "_default_": {
+      "dynamic_templates": [
+        {
+          "message_field": {
+            "mapping": {
+              "fielddata": false,
+              "index": "analyzed",
+              "norms": false,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "message"
+          }
+        },
+        {
+          "string_fields": {
+            "mapping": {
+              "fielddata": false,
+              "index": "analyzed",
+              "norms": false,
+              "type": "string",
+              "fields": {
+                "raw": {
+                  "ignore_above": 320,
+                  "index": "not_analyzed",
+                  "type": "string",
+                  "doc_values": true
+                }
+              }
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        },
+        {
+          "ip_address_fields": {
+            "mapping": {
+              "type": "ip"
+            },
+            "match": "*_ip"
+          }
+        },
+        {
+          "ipv6_address_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "type": "string"
+            },
+            "match": "*_ipv6"
+          }
+        },
+        {
+          "double_fields": {
+            "mapping": {
+              "type": "double",
+              "doc_values": true
+            },
+            "match_mapping_type": "double",
+            "match": "*"
+          }
+        },
+        {
+          "long_fields": {
+            "mapping": {
+              "type": "long",
+              "doc_values": true
+            },
+            "match_mapping_type": "long",
+            "match": "*"
+          }
+        },
+        {
+          "date_fields": {
+            "mapping": {
+              "type": "date",
+              "doc_values": true
+            },
+            "match_mapping_type": "date",
+            "match": "*"
           }
         }
-      }, {
-        "string_fields" : {
-          "match" : "*",
-          "match_mapping_type" : "string",
-          "mapping" : {
-            "type" : "text", "norms" : false,
-            "fields" : {
-              "keyword" : { "type": "keyword" }
-            }
-          }
-        }
-      } ],
-      "properties" : {
-        "@timestamp": { "type": "date", "copy_to": false },
-        "@version": { "type": "keyword", "copy_to": false },
-        "destination_ip" : { "type": "ip" },
-        "source_ip" : { "type": "ip" },
-        "answers" : { "type": "text",
-                      "fielddata": "true"},
+      ],
+      "_all": {
+        "norms": false,
+        "enabled": true
+      },
+      "properties": {
+        "addr_ip": {
+          "type": "ip"
+        },
         "geoip"  : {
           "dynamic": true,
           "properties" : {
@@ -63,8 +127,63 @@
             "latitude" : { "type" : "half_float" },
             "longitude" : { "type" : "half_float" }
           }
+        },
+        "answers": {
+          "type": "text"
+        },
+        "nat_destination_ip": {
+          "type": "ip"
+        },
+        "assigned_ip": {
+          "type": "ip"
+        },
+        "ips": {
+          "type": "ip"
+        },
+        "source_ips": {
+          "type": "ip"
+        },
+        "destination_ips": {
+          "type": "ip"
+        },
+        "tunnel_ip": {
+          "type": "ip"
+        },
+        "sub_destination_ip": {
+          "type": "ip"
+        },
+        "source_ip": {
+          "type": "ip"
+        },
+        "nat_source_ip": {
+          "type": "ip"
+        },
+        "local_ip": {
+          "type": "ip"
+        },
+        "ttls": {
+          "type": "float"
+        },
+        "sub_source_ip": {
+          "type": "ip"
+        },
+        "@timestamp": {
+          "type": "date",
+          "doc_values": true
+        },
+        "destination_ip": {
+          "type": "ip"
+        },
+        "@version": {
+          "index": "false",
+          "type": "keyword",
+          "doc_values": true
+        },
+        "assign_ip": {
+          "type": "ip"
         }
       }
     }
-  }
+  },
+  "aliases": {}
 }
